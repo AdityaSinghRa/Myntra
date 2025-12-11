@@ -6,6 +6,7 @@ import { fetchStatusActions } from "../store/fetchStatusSlice";
 const FetchItems = () => {
   const fetchStatus = useSelector((store) => store.fetchStatus);
   const dispatch = useDispatch();
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     if (fetchStatus.fetchDone) return;
@@ -14,7 +15,7 @@ const FetchItems = () => {
     const signal = controller.signal;
 
     dispatch(fetchStatusActions.markFetchingStarted());
-    fetch("http://localhost:8080/items", { signal })
+    fetch(`${BACKEND_URL}/items`, { signal })
       .then((res) => res.json())
       .then(({ items }) => {
         dispatch(fetchStatusActions.markFetchDone());
